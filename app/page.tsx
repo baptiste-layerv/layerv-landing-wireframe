@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
-  const sectionsRef = useRef<{ [key: string]: HTMLElement | null }>({});
+  const sectionsRef = useRef<Record<string, HTMLElement | null>>({});
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -148,7 +148,10 @@ export default function Home() {
       {/* What is Layer V */}
       <section
         id="what-is"
-        ref={(el) => (sectionsRef.current['what-is'] = el)}
+        ref={(el) => {
+          sectionsRef.current["what-is"] = el;
+        }}
+        
         className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
@@ -164,7 +167,9 @@ export default function Home() {
       {/* Product Overview */}
       <section
         id="products"
-        ref={(el) => (sectionsRef.current['products'] = el)}
+        ref={(el) => {
+          sectionsRef.current['products'] = el;
+        }}
         className="border-b-2 border-black bg-gray-50 fade-in opacity-0 transition-opacity duration-700"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
@@ -277,7 +282,9 @@ export default function Home() {
       {/* Why Layer V */}
       <section
         id="why"
-        ref={(el) => (sectionsRef.current['why'] = el)}
+        ref={(el) => {
+          sectionsRef.current['why'] = el;
+        }}
         className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
@@ -302,7 +309,9 @@ export default function Home() {
       {/* How it Works */}
       <section
         id="how-it-works"
-        ref={(el) => (sectionsRef.current['how-it-works'] = el)}
+        ref={(el) => {
+          sectionsRef.current['how-it-works'] = el;
+        }}
         className="border-b-2 border-black bg-gray-50 fade-in opacity-0 transition-opacity duration-700"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
@@ -330,7 +339,9 @@ export default function Home() {
       {/* Builders Section */}
       <section
         id="builders"
-        ref={(el) => (sectionsRef.current['builders'] = el)}
+        ref={(el) => {
+          sectionsRef.current['builders'] = el;
+        }}
         className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
@@ -365,7 +376,9 @@ export default function Home() {
       {/* FAQ */}
       <section
         id="faq"
-        ref={(el) => (sectionsRef.current['faq'] = el)}
+        ref={(el) => {
+          sectionsRef.current['faq'] = el;
+        }}
         className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
