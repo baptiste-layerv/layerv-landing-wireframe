@@ -5,6 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 export default function Home() {
   const sectionsRef = useRef<Record<string, HTMLElement | null>>({});
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownValue, setDropdownValue] = useState(0);
+  
+  const dropdownOptions = ['Crypto', 'Stocks', 'Commodities', 'Indexes', '0DTE'];
 
   useEffect(() => {
     // Smooth scroll for anchor links
@@ -50,6 +53,15 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    // Cycle dropdown every 2 seconds
+    const interval = setInterval(() => {
+      setDropdownValue((prev) => (prev + 1) % dropdownOptions.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [dropdownOptions.length]);
+
   return (
     <div className="min-h-screen bg-white text-black">
       {/* Sticky Header */}
@@ -63,9 +75,8 @@ export default function Home() {
             </div>
             <nav className="hidden md:flex items-center gap-6">
               <a href="#what-is" className="hover:underline">What is Layer V</a>
-              <a href="#products" className="hover:underline">Products</a>
               <a href="#why" className="hover:underline">Why Layer V</a>
-              <a href="#how-it-works" className="hover:underline">How it Works</a>
+              <a href="#products" className="hover:underline">Products</a>
               <a href="#builders" className="hover:underline">Builders</a>
               <a href="#faq" className="hover:underline">FAQ</a>
             </nav>
@@ -85,9 +96,8 @@ export default function Home() {
             <nav className="md:hidden border-t-2 border-black bg-white py-4">
               <div className="flex flex-col gap-4">
                 <a href="#what-is" className="hover:underline px-4">What is Layer V</a>
-                <a href="#products" className="hover:underline px-4">Products</a>
                 <a href="#why" className="hover:underline px-4">Why Layer V</a>
-                <a href="#how-it-works" className="hover:underline px-4">How it Works</a>
+                <a href="#products" className="hover:underline px-4">Products</a>
                 <a href="#builders" className="hover:underline px-4">Builders</a>
                 <a href="#faq" className="hover:underline px-4">FAQ</a>
               </div>
@@ -104,7 +114,7 @@ export default function Home() {
               Volatility becomes yield. Leverage without liquidation.
           </h1>
             <p className="text-lg sm:text-xl text-gray-700 mb-8 leading-relaxed">
-              Layer V is the on-chain volatility layer. Earn premium, trade leverage, or access professional options liquidity — all self-custodial, all on-chain.
+              Layer V is the onchain volatility layer. Earn premium, trade leverage, or access institutional-grade options — all self-custodial, all onchain.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <button className="border-2 border-black bg-black text-white px-8 py-3 font-semibold hover:bg-gray-800 transition-colors">
@@ -115,7 +125,7 @@ export default function Home() {
               </button>
             </div>
             <div className="text-sm text-gray-600 border-t-2 border-gray-300 pt-4">
-              Self-custody • On-chain settlement • Composable options
+              Self-custody • Onchain settlement • Composable options
             </div>
           </div>
         </div>
@@ -134,11 +144,11 @@ export default function Home() {
               <div className="text-2xl font-bold">—</div>
             </div>
             <div className="border-2 border-gray-400 p-4">
-              <div className="text-xs text-gray-600 mb-1">Premium Paid</div>
+              <div className="text-xs text-gray-600 mb-1">Open Interest</div>
               <div className="text-2xl font-bold">—</div>
             </div>
             <div className="border-2 border-gray-400 p-4">
-              <div className="text-xs text-gray-600 mb-1">Markets Live (ETH / BTC)</div>
+              <div className="text-xs text-gray-600 mb-1">Premium Paid</div>
               <div className="text-2xl font-bold">—</div>
             </div>
           </div>
@@ -157,9 +167,75 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-3xl">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">The volatility infrastructure of DeFi</h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              Options are the largest derivatives market, yet they remain inaccessible on-chain. Layer V turns volatility into a usable primitive: yield generation, directional leverage, risk management, and composable building blocks.
+            <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              Options are the largest derivatives market, yet they remain inaccessible onchain. Layer V turns volatility into a composable primitive: yield market, liquidationless leverage, risk management, and unified liquidity.
             </p>
+            <div className="flex items-center gap-2 text-lg font-semibold">
+              <span>Trade</span>
+              <div className="border-2 border-black bg-white px-4 py-2 flex items-center gap-2 min-w-[140px]">
+                <span>{dropdownOptions[dropdownValue]}</span>
+                <span className="text-xs">▼</span>
+              </div>
+              <span>options</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Layer V */}
+      <section
+        id="why"
+        ref={(el) => {
+          sectionsRef.current['why'] = el;
+        }}
+        className="border-b-2 border-black bg-gray-50 fade-in opacity-0 transition-opacity duration-700"
+      >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-center">Why Layer V</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-bold mb-2">Composable infrastructure</h3>
+            </div>
+            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-bold mb-2">Unified liquidity</h3>
+            </div>
+            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-bold mb-2">Security-first design</h3>
+            </div>
+            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-bold mb-2">Self-custody by default</h3>
+            </div>
+          </div>
+          {/* Layer Stack Wireframe Placeholder */}
+          <div className="max-w-2xl mx-auto border-2 border-black bg-white p-8">
+            <div className="text-center mb-6">
+              <h3 className="text-xl font-bold mb-4">Layer Stack</h3>
+              <div className="relative h-64 flex flex-col justify-end items-center">
+                {/* Layer 5 - Layer V */}
+                <div className="border-2 border-black bg-white p-4 mb-2 w-3/4 text-center font-bold">
+                  Layer V
+                </div>
+                {/* Layer 4 */}
+                <div className="border-2 border-black bg-gray-100 p-3 mb-2 w-5/6 text-sm">
+                  Verifiable Execution
+                </div>
+                {/* Layer 3 */}
+                <div className="border-2 border-black bg-gray-100 p-3 mb-2 w-full text-sm">
+                  Intent & Aggregation
+                </div>
+                {/* Layer 2 */}
+                <div className="border-2 border-black bg-gray-100 p-3 mb-2 w-5/6 text-sm">
+                  Scalability
+                </div>
+                {/* Layer 1 */}
+                <div className="border-2 border-black bg-gray-100 p-3 w-3/4 text-sm">
+                  Settlement
+                </div>
+              </div>
+              <p className="text-xs text-gray-600 mt-4">
+                Designer cue: visualize as stacked 3D layers; Layer V can be rendered as 'V' or '5'.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -170,7 +246,7 @@ export default function Home() {
         ref={(el) => {
           sectionsRef.current['products'] = el;
         }}
-        className="border-b-2 border-black bg-gray-50 fade-in opacity-0 transition-opacity duration-700"
+        className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-center">Products</h2>
@@ -182,10 +258,9 @@ export default function Home() {
                 Earn premium upfront with options-based structured products.
               </p>
               <ul className="space-y-2 text-sm text-gray-600">
-                <li>• Covered Calls</li>
-                <li>• Cash-Secured Puts</li>
-                <li>• Defined risk</li>
-                <li>• Premium paid upfront</li>
+                <li>• Institutional-grade strategies</li>
+                <li>• Risk-adjusted payoffs</li>
+                <li>• Automated vault infrastructure</li>
               </ul>
             </div>
 
@@ -193,13 +268,12 @@ export default function Home() {
             <div className="border-2 border-black bg-white p-6 hover:shadow-lg transition-shadow">
               <h3 className="text-xl font-bold mb-4">Protected Leverage</h3>
               <p className="text-gray-700 mb-4">
-                Directional leverage with capped downside and no liquidation.
+                High leverage with capped downside and no liquidation.
               </p>
               <ul className="space-y-2 text-sm text-gray-600">
-                <li>• 3 simple inputs</li>
-                <li>• Max loss = premium</li>
-                <li>• No liquidations for buyers</li>
-                <li>• 1D to 60D durations</li>
+                <li>• No liquidation</li>
+                <li>• Access full option convexity in 1-click</li>
+                <li>• Max loss = premium paid upfront</li>
               </ul>
             </div>
 
@@ -207,13 +281,12 @@ export default function Home() {
             <div className="border-2 border-black bg-white p-6 hover:shadow-lg transition-shadow">
               <h3 className="text-xl font-bold mb-4">Trading Terminal</h3>
               <p className="text-gray-700 mb-4">
-                Deribit-grade options access — on-chain and self-custodial.
+                Institutional-grade options access — onchain and self-custodial.
               </p>
               <ul className="space-y-2 text-sm text-gray-600">
-                <li>• Full options liquidity</li>
-                <li>• Portfolio margin</li>
+                <li>• Hybrid Order-Book and RFQ systems</li>
+                <li>• Portfolio-based margin</li>
                 <li>• Professional APIs</li>
-                <li>• For institutions & MMs</li>
               </ul>
             </div>
           </div>
@@ -224,25 +297,25 @@ export default function Home() {
       <section className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-3xl">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Earn premium upfront. Know your risk.</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Earn Yield Upfront.</h2>
             <div className="space-y-4 mb-8">
               <div className="border-l-4 border-black pl-4">
-                <div className="font-semibold mb-2">1. Deposit ETH/BTC or stablecoins</div>
+                <div className="font-semibold mb-2">1. Deposit your asset</div>
               </div>
               <div className="border-l-4 border-black pl-4">
-                <div className="font-semibold mb-2">2. Choose Covered Call or Cash-Secured Put</div>
+                <div className="font-semibold mb-2">2. Choose your strategy</div>
               </div>
               <div className="border-l-4 border-black pl-4">
-                <div className="font-semibold mb-2">3. Select strike, duration, and optional leverage</div>
+                <div className="font-semibold mb-2">3. Visualise your payoff, adjust your risk</div>
               </div>
               <div className="border-l-4 border-black pl-4">
-                <div className="font-semibold mb-2">4. Receive premium upfront; position runs to expiry</div>
+                <div className="font-semibold mb-2">4. Receive your premium upfront</div>
               </div>
             </div>
             <ul className="space-y-2 text-gray-700">
               <li>• Premium known upfront</li>
-              <li>• Defined risk before you enter</li>
-              <li>• Yield from volatility (not inflation)</li>
+              <li>• Defined risk</li>
+              <li>• Volatility-based yield</li>
             </ul>
           </div>
         </div>
@@ -275,63 +348,6 @@ export default function Home() {
               <li>• No funding rates</li>
               <li>• Clear expiration; clear PnL</li>
             </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Layer V */}
-      <section
-        id="why"
-        ref={(el) => {
-          sectionsRef.current['why'] = el;
-        }}
-        className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700"
-      >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-center">Why Layer V</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-2">Composable options</h3>
-            </div>
-            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-2">Unified liquidity</h3>
-            </div>
-            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-2">Risk-first design</h3>
-            </div>
-            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-2">Self-custody by default</h3>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How it Works */}
-      <section
-        id="how-it-works"
-        ref={(el) => {
-          sectionsRef.current['how-it-works'] = el;
-        }}
-        className="border-b-2 border-black bg-gray-50 fade-in opacity-0 transition-opacity duration-700"
-      >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-center">How it works</h2>
-          <div className="max-w-2xl mx-auto space-y-4">
-            <div className="border-l-4 border-black pl-4">
-              <div className="font-semibold text-lg">1. User chooses a product</div>
-            </div>
-            <div className="border-l-4 border-black pl-4">
-              <div className="font-semibold text-lg">2. Action becomes an intent to trade options</div>
-            </div>
-            <div className="border-l-4 border-black pl-4">
-              <div className="font-semibold text-lg">3. Orders execute via Layer V liquidity</div>
-            </div>
-            <div className="border-l-4 border-black pl-4">
-              <div className="font-semibold text-lg">4. Portfolio risk checks validate solvency</div>
-            </div>
-            <div className="border-l-4 border-black pl-4">
-              <div className="font-semibold text-lg">5. Trades settle on-chain</div>
-            </div>
           </div>
         </div>
       </section>
@@ -424,9 +440,8 @@ export default function Home() {
             </div>
             <nav className="flex flex-wrap gap-4 justify-center md:justify-end text-sm">
               <a href="#what-is" className="hover:underline">What is Layer V</a>
-              <a href="#products" className="hover:underline">Products</a>
               <a href="#why" className="hover:underline">Why Layer V</a>
-              <a href="#how-it-works" className="hover:underline">How it Works</a>
+              <a href="#products" className="hover:underline">Products</a>
               <a href="#builders" className="hover:underline">Builders</a>
               <a href="#faq" className="hover:underline">FAQ</a>
             </nav>
