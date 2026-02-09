@@ -113,7 +113,6 @@ export default function Home() {
               </div>
             </div>
             <nav className="hidden md:flex items-center gap-6">
-              <a href="#what-is" className="hover:underline">What is Layer V</a>
               <a href="#built-for-scale" className="hover:underline">Built for scale</a>
               <a href="#products" className="hover:underline">Products</a>
               <a href="#builders" className="hover:underline">Builders</a>
@@ -134,7 +133,6 @@ export default function Home() {
           {mobileMenuOpen && (
             <nav className="md:hidden border-t-2 border-black bg-white py-4">
               <div className="flex flex-col gap-4">
-                <a href="#what-is" className="hover:underline px-4">What is Layer V</a>
                 <a href="#built-for-scale" className="hover:underline px-4">Built for scale</a>
                 <a href="#products" className="hover:underline px-4">Products</a>
                 <a href="#builders" className="hover:underline px-4">Builders</a>
@@ -191,46 +189,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What is Layer V */}
-      <section
-        id="what-is"
-        ref={(el) => {
-          sectionsRef.current["what-is"] = el;
-        }}
-        
-        className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700"
-      >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <div className="max-w-3xl">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6">The volatility infrastructure of DeFi</h2>
-            <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              Layer V turns volatility into a composable primitive: premium markets, liquidationless leverage, and unified liquidity.
-            </p>
-            <div className="flex items-center gap-2 text-lg font-semibold">
-              <span>Trade</span>
-              <select
-                value={dropdownOptions[dropdownValue]}
-                onChange={(e) => {
-                  const index = dropdownOptions.indexOf(e.target.value);
-                  if (index !== -1) {
-                    setDropdownValue(index);
-                    setDropdownAutoCycle(false);
-                  }
-                }}
-                className="border-2 border-black bg-white px-4 py-2 flex items-center gap-2 min-w-[140px] appearance-none cursor-pointer"
-              >
-                {dropdownOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-              <span>options</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Built for scale */}
       <section
         id="built-for-scale"
@@ -258,11 +216,11 @@ export default function Home() {
                 />
               </div>
               <div className="space-y-3 text-sm">
-                <div>1. Layer V Products — Premium Markets, Trading Terminal</div>
-                <div>2. Liquidity Network — Market makers</div>
-                <div>3. Core Engines — Hybrid CLOB + RFQ, risk engine</div>
-                <div>4. Chainlink CRE — Verifiable execution, orchestration</div>
-                <div>5. Settlement Layer — Smart contracts, collateral, tokenization</div>
+                <div>1. Layer V Sub-Products — Momentum Traders, Yield Seekers</div>
+                <div>2. Liquidity Network — Market Makers, OTC Desk, Professional Traders</div>
+                <div>3. Core Engine — Hybrid CLOB + RFQ, Risk Engine</div>
+                <div>4. Chainlink CRE — Verifiable execution, Orchestration</div>
+                <div>5. Settlement Layer — Smart Contracts, Collateral, Tokenization</div>
               </div>
             </div>
           </div>
@@ -528,7 +486,6 @@ export default function Home() {
               LAYER V
             </div>
             <nav className="flex flex-wrap gap-4 justify-center md:justify-end text-sm">
-              <a href="#what-is" className="hover:underline">What is Layer V</a>
               <a href="#built-for-scale" className="hover:underline">Built for scale</a>
               <a href="#products" className="hover:underline">Products</a>
               <a href="#builders" className="hover:underline">Builders</a>
