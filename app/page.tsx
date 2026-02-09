@@ -6,8 +6,45 @@ export default function Home() {
   const sectionsRef = useRef<Record<string, HTMLElement | null>>({});
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState(0);
+  const [dropdownAutoCycle, setDropdownAutoCycle] = useState(true);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   
   const dropdownOptions = ['Crypto', 'Stocks', 'Commodities', 'Indexes', '0DTE'];
+  
+  const faqItems = [
+    {
+      question: "What is Layer V?",
+      answer: "Layer V is an onchain options liquidity layer turning volatility into composable products. It uses hybrid order book + RFQ execution, with self-custody and onchain settlement."
+    },
+    {
+      question: "Which products can I use?",
+      answer: "Premium Markets (earn premium upfront), Protected Leverage (liquidationless leverage), Trading Terminal (institutional-grade options)."
+    },
+    {
+      question: "What's special about Layer V's portfolio margin?",
+      answer: "Portfolio-based margining nets risk across positions (spreads/hedges) for capital efficiency, while keeping solvency controls deterministic and auditable."
+    },
+    {
+      question: "What collateral is supported?",
+      answer: "USDC/USDT settlement, ETH/BTC as core collateral in phase 1; expanding over time."
+    },
+    {
+      question: "Do you support APIs, RFQ and subaccounts?",
+      answer: "Yes—professional APIs, RFQ for competitive quotes (including multi-leg), and subaccounts for portfolio separation."
+    },
+    {
+      question: "How are orders executed and settled? Is custody self-managed?",
+      answer: "Offchain matching for speed + onchain settlement for transparency; users remain self-custodial."
+    },
+    {
+      question: "What are the fees?",
+      answer: "Maker/taker trading fees + settlement/exercise fees when applicable; no funding rates for Protected Leverage; refer to docs for current schedule."
+    },
+    {
+      question: "Who can and can't use Layer V?",
+      answer: "Availability may vary by jurisdiction; refer to Terms/Docs."
+    }
+  ];
 
   useEffect(() => {
     // Smooth scroll for anchor links
@@ -54,13 +91,15 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Cycle dropdown every 2 seconds
+    // Cycle dropdown every 2 seconds if auto-cycling is enabled
+    if (!dropdownAutoCycle) return;
+    
     const interval = setInterval(() => {
       setDropdownValue((prev) => (prev + 1) % dropdownOptions.length);
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [dropdownOptions.length]);
+  }, [dropdownOptions.length, dropdownAutoCycle]);
 
   return (
     <div className="min-h-screen bg-white text-black">
@@ -75,7 +114,7 @@ export default function Home() {
             </div>
             <nav className="hidden md:flex items-center gap-6">
               <a href="#what-is" className="hover:underline">What is Layer V</a>
-              <a href="#why" className="hover:underline">Why Layer V</a>
+              <a href="#built-for-scale" className="hover:underline">Built for scale</a>
               <a href="#products" className="hover:underline">Products</a>
               <a href="#builders" className="hover:underline">Builders</a>
               <a href="#faq" className="hover:underline">FAQ</a>
@@ -96,7 +135,7 @@ export default function Home() {
             <nav className="md:hidden border-t-2 border-black bg-white py-4">
               <div className="flex flex-col gap-4">
                 <a href="#what-is" className="hover:underline px-4">What is Layer V</a>
-                <a href="#why" className="hover:underline px-4">Why Layer V</a>
+                <a href="#built-for-scale" className="hover:underline px-4">Built for scale</a>
                 <a href="#products" className="hover:underline px-4">Products</a>
                 <a href="#builders" className="hover:underline px-4">Builders</a>
                 <a href="#faq" className="hover:underline px-4">FAQ</a>
@@ -116,16 +155,13 @@ export default function Home() {
             <p className="text-lg sm:text-xl text-gray-700 mb-8 leading-relaxed">
               Layer V is the onchain volatility layer. Earn premium, trade leverage, or access institutional-grade options — all self-custodial, all onchain.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            <div className="flex flex-col sm:flex-row gap-4">
               <button className="border-2 border-black bg-black text-white px-8 py-3 font-semibold hover:bg-gray-800 transition-colors">
                 Launch App
               </button>
               <button className="border-2 border-black bg-white text-black px-8 py-3 font-semibold hover:bg-gray-100 transition-colors">
                 Explore Products
               </button>
-            </div>
-            <div className="text-sm text-gray-600 border-t-2 border-gray-300 pt-4">
-              Self-custody • Onchain settlement • Composable options
             </div>
           </div>
         </div>
@@ -168,73 +204,66 @@ export default function Home() {
           <div className="max-w-3xl">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">The volatility infrastructure of DeFi</h2>
             <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              Options are the largest derivatives market, yet they remain inaccessible onchain. Layer V turns volatility into a composable primitive: yield market, liquidationless leverage, risk management, and unified liquidity.
+              Layer V turns volatility into a composable primitive: premium markets, liquidationless leverage, and unified liquidity.
             </p>
             <div className="flex items-center gap-2 text-lg font-semibold">
               <span>Trade</span>
-              <div className="border-2 border-black bg-white px-4 py-2 flex items-center gap-2 min-w-[140px]">
-                <span>{dropdownOptions[dropdownValue]}</span>
-                <span className="text-xs">▼</span>
-              </div>
+              <select
+                value={dropdownOptions[dropdownValue]}
+                onChange={(e) => {
+                  const index = dropdownOptions.indexOf(e.target.value);
+                  if (index !== -1) {
+                    setDropdownValue(index);
+                    setDropdownAutoCycle(false);
+                  }
+                }}
+                className="border-2 border-black bg-white px-4 py-2 flex items-center gap-2 min-w-[140px] appearance-none cursor-pointer"
+              >
+                {dropdownOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
               <span>options</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Why Layer V */}
+      {/* Built for scale */}
       <section
-        id="why"
+        id="built-for-scale"
         ref={(el) => {
-          sectionsRef.current['why'] = el;
+          sectionsRef.current['built-for-scale'] = el;
         }}
         className="border-b-2 border-black bg-gray-50 fade-in opacity-0 transition-opacity duration-700"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-center">Why Layer V</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-2">Composable infrastructure</h3>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-center">Built for scale</h2>
+          <div className="grid md:grid-cols-2 gap-12 items-start">
+            {/* Left Column */}
+            <div className="space-y-4">
+              <div className="text-lg">Hybrid CLOB + RFQ execution</div>
+              <div className="text-lg">Native complexity-abstracted sub-products</div>
+              <div className="text-lg">Composable architecture</div>
             </div>
-            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-2">Unified liquidity</h3>
-            </div>
-            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-2">Security-first design</h3>
-            </div>
-            <div className="border-2 border-black bg-white p-6 text-center hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-2">Self-custody by default</h3>
-            </div>
-          </div>
-          {/* Layer Stack Wireframe Placeholder */}
-          <div className="max-w-2xl mx-auto border-2 border-black bg-white p-8">
-            <div className="text-center mb-6">
-              <h3 className="text-xl font-bold mb-4">Layer Stack</h3>
-              <div className="relative h-64 flex flex-col justify-end items-center">
-                {/* Layer 5 - Layer V */}
-                <div className="border-2 border-black bg-white p-4 mb-2 w-3/4 text-center font-bold">
-                  Layer V
-                </div>
-                {/* Layer 4 */}
-                <div className="border-2 border-black bg-gray-100 p-3 mb-2 w-5/6 text-sm">
-                  Verifiable Execution
-                </div>
-                {/* Layer 3 */}
-                <div className="border-2 border-black bg-gray-100 p-3 mb-2 w-full text-sm">
-                  Intent & Aggregation
-                </div>
-                {/* Layer 2 */}
-                <div className="border-2 border-black bg-gray-100 p-3 mb-2 w-5/6 text-sm">
-                  Scalability
-                </div>
-                {/* Layer 1 */}
-                <div className="border-2 border-black bg-gray-100 p-3 w-3/4 text-sm">
-                  Settlement
-                </div>
+            {/* Right Column */}
+            <div>
+              <div className="mb-6">
+                <img 
+                  src="/layer-v-stack.svg" 
+                  alt="Layer V Stack Diagram" 
+                  className="w-full max-w-md mx-auto border-2 border-black"
+                />
               </div>
-              <p className="text-xs text-gray-600 mt-4">
-                Designer cue: visualize as stacked 3D layers; Layer V can be rendered as 'V' or '5'.
-              </p>
+              <div className="space-y-3 text-sm">
+                <div>1. Layer V Products — Premium Markets, Trading Terminal</div>
+                <div>2. Liquidity Network — Market makers</div>
+                <div>3. Core Engines — Hybrid CLOB + RFQ, risk engine</div>
+                <div>4. Chainlink CRE — Verifiable execution, orchestration</div>
+                <div>5. Settlement Layer — Smart contracts, collateral, tokenization</div>
+              </div>
             </div>
           </div>
         </div>
@@ -253,51 +282,82 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-6">
             {/* Premium Markets Card */}
             <div className="border-2 border-black bg-white p-6 hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-4">Premium Markets</h3>
+              <h3 className="text-2xl font-bold mb-4">Premium Markets</h3>
               <p className="text-gray-700 mb-4">
                 Earn premium upfront with options-based structured products.
               </p>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="space-y-2 text-sm text-gray-600 mb-6">
                 <li>• Institutional-grade strategies</li>
                 <li>• Risk-adjusted payoffs</li>
-                <li>• Automated vault infrastructure</li>
+                <li>• Custom vault infrastructure</li>
               </ul>
+              <div className="flex flex-col gap-2">
+                <a href="#" className="border-2 border-black bg-black text-white px-4 py-2 text-center font-semibold hover:bg-gray-800 transition-colors text-sm">
+                  Premium Markets App
+                </a>
+                <a href="#premium-markets" className="border-2 border-black bg-white text-black px-4 py-2 text-center font-semibold hover:bg-gray-100 transition-colors text-sm">
+                  Read More
+                </a>
+              </div>
             </div>
 
             {/* Protected Leverage Card */}
             <div className="border-2 border-black bg-white p-6 hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-4">Protected Leverage</h3>
+              <h3 className="text-2xl font-bold mb-4">Protected Leverage</h3>
               <p className="text-gray-700 mb-4">
                 High leverage with capped downside and no liquidation.
               </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>• No liquidation</li>
-                <li>• Access full option convexity in 1-click</li>
-                <li>• Max loss = premium paid upfront</li>
+              <ul className="space-y-2 text-sm text-gray-600 mb-6">
+                <li>• No liquidation risk (max loss = premium paid upfront)</li>
+                <li>• Access full option convexity in one click</li>
+                <li>• Clear duration selection</li>
               </ul>
+              <div className="flex flex-col gap-2">
+                <a href="#" className="border-2 border-black bg-black text-white px-4 py-2 text-center font-semibold hover:bg-gray-800 transition-colors text-sm">
+                  Protected Leverage App
+                </a>
+                <a href="#protected-leverage" className="border-2 border-black bg-white text-black px-4 py-2 text-center font-semibold hover:bg-gray-100 transition-colors text-sm">
+                  Read More
+                </a>
+              </div>
             </div>
 
             {/* Trading Terminal Card */}
             <div className="border-2 border-black bg-white p-6 hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-4">Trading Terminal</h3>
+              <h3 className="text-2xl font-bold mb-4">Trading Terminal</h3>
               <p className="text-gray-700 mb-4">
                 Institutional-grade options access — onchain and self-custodial.
               </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>• Hybrid Order-Book and RFQ systems</li>
+              <ul className="space-y-2 text-sm text-gray-600 mb-6">
+                <li>• Hybrid order book + RFQ systems</li>
                 <li>• Portfolio-based margin</li>
                 <li>• Professional APIs</li>
               </ul>
+              <div className="flex flex-col gap-2">
+                <a href="#" className="border-2 border-black bg-black text-white px-4 py-2 text-center font-semibold hover:bg-gray-800 transition-colors text-sm">
+                  Trading Terminal App
+                </a>
+                <a href="#trading-terminal" className="border-2 border-black bg-white text-black px-4 py-2 text-center font-semibold hover:bg-gray-100 transition-colors text-sm">
+                  Read More
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Premium Markets Detail */}
-      <section className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700">
+      <section
+        id="premium-markets"
+        ref={(el) => {
+          sectionsRef.current['premium-markets'] = el;
+        }}
+        className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-3xl">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Earn Yield Upfront.</h2>
+            <div className="text-sm text-gray-600 mb-2">Premium Markets</div>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Earn Premium upfront.</h2>
             <div className="space-y-4 mb-8">
               <div className="border-l-4 border-black pl-4">
                 <div className="font-semibold mb-2">1. Deposit your asset</div>
@@ -306,25 +366,32 @@ export default function Home() {
                 <div className="font-semibold mb-2">2. Choose your strategy</div>
               </div>
               <div className="border-l-4 border-black pl-4">
-                <div className="font-semibold mb-2">3. Visualise your payoff, adjust your risk</div>
+                <div className="font-semibold mb-2">3. Visualize your payoff, adjust your risk</div>
               </div>
               <div className="border-l-4 border-black pl-4">
                 <div className="font-semibold mb-2">4. Receive your premium upfront</div>
               </div>
             </div>
             <ul className="space-y-2 text-gray-700">
-              <li>• Premium known upfront</li>
               <li>• Defined risk</li>
-              <li>• Volatility-based yield</li>
+              <li>• Options volatility-based yield</li>
+              <li>• Build your custom vault strategy</li>
             </ul>
           </div>
         </div>
       </section>
 
       {/* Protected Leverage Detail */}
-      <section className="border-b-2 border-black bg-gray-50 fade-in opacity-0 transition-opacity duration-700">
+      <section
+        id="protected-leverage"
+        ref={(el) => {
+          sectionsRef.current['protected-leverage'] = el;
+        }}
+        className="border-b-2 border-black bg-gray-50 fade-in opacity-0 transition-opacity duration-700"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-3xl">
+            <div className="text-sm text-gray-600 mb-2">Protected Leverage</div>
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">Trade leverage without liquidation.</h2>
             <p className="text-lg text-gray-700 mb-8 leading-relaxed">
               Protected Leverage packages options into a simple UX: you choose 3 inputs — Layer V builds the position.
@@ -344,10 +411,45 @@ export default function Home() {
               </div>
             </div>
             <ul className="space-y-2 text-gray-700">
-              <li>• No liquidation risk for buyers (max loss = premium)</li>
-              <li>• No funding rates</li>
-              <li>• Clear expiration; clear PnL</li>
+              <li>• Standardized trading experience, clear expiration date, convex PnL</li>
+              <li>• No liquidation risk for traders (max loss = premium paid upfront)</li>
+              <li>• No funding rates, no extraction by design</li>
             </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Trading Terminal Detail */}
+      <section
+        id="trading-terminal"
+        ref={(el) => {
+          sectionsRef.current['trading-terminal'] = el;
+        }}
+        className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700"
+      >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <div className="max-w-3xl">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-8">Trading Terminal</h2>
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-bold text-lg mb-2">Portfolio Margining</h3>
+                <p className="text-gray-700">
+                  Capital efficiency via risk netting across positions.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-bold text-lg mb-2">Embedded composability</h3>
+                <p className="text-gray-700">
+                  Long options can exit the system as ERC-20 tokens usable across DeFi.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-bold text-lg mb-2">Chainlink-powered Order Book</h3>
+                <p className="text-gray-700">
+                  Offchain matching for scalability + onchain settlement, with Chainlink CRE for verifiable execution/orchestration.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -358,7 +460,7 @@ export default function Home() {
         ref={(el) => {
           sectionsRef.current['builders'] = el;
         }}
-        className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700"
+        className="border-b-2 border-black bg-gray-50 fade-in opacity-0 transition-opacity duration-700"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-2xl mx-auto text-center">
@@ -368,23 +470,9 @@ export default function Home() {
                 Read Docs
               </button>
               <button className="border-2 border-black bg-white text-black px-8 py-3 font-semibold hover:bg-gray-100 transition-colors">
-                Talk to the Team
+                Contact Us
               </button>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Security & Risk */}
-      <section className="border-b-2 border-black bg-gray-50 fade-in opacity-0 transition-opacity duration-700">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <div className="max-w-3xl">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Security & Risk</h2>
-            <ul className="space-y-3 text-gray-700">
-              <li>• Portfolio-based margining</li>
-              <li>• Deterministic, auditable outputs</li>
-              <li>• Graceful liquidation mechanisms</li>
-            </ul>
           </div>
         </div>
       </section>
@@ -399,22 +487,23 @@ export default function Home() {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-center">FAQ</h2>
-          <div className="max-w-3xl mx-auto space-y-6">
-            <div className="border-2 border-gray-400 p-6">
-              <h3 className="font-bold text-lg mb-2">What is Protected Leverage?</h3>
-            </div>
-            <div className="border-2 border-gray-400 p-6">
-              <h3 className="font-bold text-lg mb-2">Can I get liquidated?</h3>
-            </div>
-            <div className="border-2 border-gray-400 p-6">
-              <h3 className="font-bold text-lg mb-2">Is Layer V self-custodial?</h3>
-            </div>
-            <div className="border-2 border-gray-400 p-6">
-              <h3 className="font-bold text-lg mb-2">Who is Layer V for?</h3>
-            </div>
-            <div className="border-2 border-gray-400 p-6">
-              <h3 className="font-bold text-lg mb-2">How do Premium Markets generate yield?</h3>
-            </div>
+          <div className="max-w-3xl mx-auto space-y-4">
+            {faqItems.map((item, index) => (
+              <div key={index} className="border-2 border-gray-400">
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
+                >
+                  <h3 className="font-bold text-lg pr-4">{item.question}</h3>
+                  <span className="text-xl flex-shrink-0">{openFaq === index ? '−' : '+'}</span>
+                </button>
+                {openFaq === index && (
+                  <div className="px-6 pb-6 text-gray-700">
+                    {item.answer}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -440,7 +529,7 @@ export default function Home() {
             </div>
             <nav className="flex flex-wrap gap-4 justify-center md:justify-end text-sm">
               <a href="#what-is" className="hover:underline">What is Layer V</a>
-              <a href="#why" className="hover:underline">Why Layer V</a>
+              <a href="#built-for-scale" className="hover:underline">Built for scale</a>
               <a href="#products" className="hover:underline">Products</a>
               <a href="#builders" className="hover:underline">Builders</a>
               <a href="#faq" className="hover:underline">FAQ</a>
