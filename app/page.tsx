@@ -198,7 +198,8 @@ export default function Home() {
         className="border-b-2 border-black bg-gray-50 fade-in opacity-0 transition-opacity duration-700"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-center">Built for scale</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-center">Built for scale</h2>
+          <p className="text-center text-gray-700 mb-12">A modular stack that scales execution, flow, and composability.</p>
           <div className="grid md:grid-cols-2 gap-12 items-start">
             {/* Left Column */}
             <div className="space-y-4">
@@ -207,12 +208,12 @@ export default function Home() {
               <div className="text-lg">Composable architecture</div>
             </div>
             {/* Right Column */}
-            <div>
-              <div className="mb-6">
+            <div className="flex flex-col md:flex-row gap-6 items-start">
+              <div className="flex-shrink-0">
                 <img 
                   src="/layer-v-stack.svg" 
                   alt="Layer V Stack Diagram" 
-                  className="w-full max-w-md mx-auto border-2 border-black"
+                  className="w-full max-w-xs border-2 border-black"
                 />
               </div>
               <div className="space-y-3 text-sm">
@@ -236,7 +237,8 @@ export default function Home() {
         className="border-b-2 border-black fade-in opacity-0 transition-opacity duration-700"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-center">Products</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-center">Products</h2>
+          <p className="text-center text-gray-700 mb-12">Multiple product surfaces. One unified liquidity layer.</p>
           <div className="grid md:grid-cols-3 gap-6">
             {/* Premium Markets Card */}
             <div className="border-2 border-black bg-white p-6 hover:shadow-lg transition-shadow">
@@ -387,7 +389,8 @@ export default function Home() {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-3xl">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-8">Trading Terminal</h2>
+            <div className="text-sm text-gray-600 mb-2">Trading Terminal</div>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-8">INSTITUTIONAL-GRADE OPTIONS TRADING</h2>
             <div className="space-y-6">
               <div>
                 <h3 className="font-bold text-lg mb-2">Portfolio Margining</h3>
