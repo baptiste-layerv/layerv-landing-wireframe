@@ -217,7 +217,7 @@ export default function Home() {
                 />
               </div>
               <div className="space-y-3 text-sm">
-                <div>1. Layer V Sub-Products — Momentum Traders, Yield Seekers</div>
+                <div>1. Layer V Sub-Products  — Premium Markets, Protected Leverage</div>
                 <div>2. Liquidity Network — Market Makers, OTC Desk, Professional Traders</div>
                 <div>3. Core Engine — Hybrid CLOB + RFQ, Risk Engine</div>
                 <div>4. Chainlink CRE — Verifiable execution, Orchestration</div>
@@ -373,7 +373,7 @@ export default function Home() {
             <ul className="space-y-2 text-gray-700">
               <li>• Standardized trading experience, clear expiration date, convex PnL</li>
               <li>• No liquidation risk for traders (max loss = premium paid upfront)</li>
-              <li>• No funding rates, no extraction by design</li>
+              <li>• No funding rates, no extraction</li>
             </ul>
           </div>
         </div>
